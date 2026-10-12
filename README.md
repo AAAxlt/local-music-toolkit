@@ -18,6 +18,39 @@
 
 QQ 的 `.mflac/.mgg` **不承诺全部支持**。仓库不附带 QQ 辅助程序；未配置或未显式启用时报告为等待。现有普通音频与 NCM 不依赖 QQ 客户端。
 
+## 我们实际怎么解码
+
+我们用这套流程把 QQ／网易云下载整理成一个播放器可读的曲库：**识别真实格式 → 对应路线还原 → 完整音频校验 → 整理去重 → 歌单只引用正式音频**。不是改扩展名，也不是一律转成 MP3。
+
+| 文件 | 实际采用的处理方式 | 输出 |
+| --- | --- | --- |
+| 普通 FLAC／OGG／MP3 等 | 保留原下载，校验并收集到曲库 | 原编码的普通音频 |
+| 网易云 NCM | Node 脚本读取容器，解开密钥和元数据区，用密钥流还原音频区 | 按真实文件头确定 MP3／FLAC 等格式 |
+| QQ MFLAC／MGG 等 | 已登录并真实播放过歌曲的 QQ PC 客户端，配合外部 Frida 辅助工具 | 候选 FLAC／OGG，仍需完整校验 |
+
+```mermaid
+flowchart TD
+    A[自己的下载目录] --> B[扫描与文件头识别]
+    B --> C[普通音频]
+    B --> D[NCM 离线还原]
+    B --> E[QQ 可选客户端辅助]
+    C --> F[FFmpeg 全长检查音频轨]
+    D --> F
+    E --> F
+    F -->|通过| G[单一正式曲库 library]
+    F -->|失败| H[记录原因，不入库]
+    G --> I[Folia 导入文件夹]
+    G --> J[点击选歌，写 M3U8 引用]
+    J --> K[Folia 导入歌单]
+    I --> K
+```
+
+例如我们新增的 `toe,土岐麻子 - グッドバイ -album version-.ncm`，在本机离线还原为 MP3，完整校验后整理进曲库；QQ 的一个 MFLAC 隔离样本则借助客户端恢复为 FLAC，与旧有效产物的 SHA-256 一致。历史批量里 133 个 MFLAC 成功，也有 10 个独立 MGG 产物不合法而被拒绝，因此不能把部分成功写成全部格式兼容。
+
+解密之后的 FFmpeg 检查把音频从头到尾解码到空输出，**不播放、不另存转码文件**。它用于确认候选文件是否完整；整理器进一步检查容器尾部和标签写入，原下载始终保留。
+
+完整解释、源码入口、真实验证范围、增量判断和报告位置见 **[我们实际怎么解码与整理](docs/decoding-pipeline.md)**。
+
 ## 环境要求
 
 | 组件 | 建议与已验证范围 | 用途 |
@@ -98,6 +131,31 @@ Frida 是动态插桩框架，可以观察运行中程序的函数和数据。QQ
 .\refresh.cmd --allow-qqd
 ```
 
+## Folia 使用实例：一份曲库，多个歌单
+
+我们最后采用的结构如下。可分享项目默认使用 `library`／`playlists`，本机分别命名为“全部歌曲”／“歌单”：
+
+```text
+本地音乐/
+├─ 全部歌曲/             ← Folia 先导入这个目录
+│  ├─ AGA - 孤雏.flac
+│  ├─ 爱乐团王超 - 天涯.ogg
+│  └─ toe_土岐麻子 - グッドバイ -album version-.mp3
+└─ 歌单/
+   └─ Axlt.m3u8          ← 然后导入歌单
+```
+
+1. 更新曲库，确认报告中歌曲已通过校验。
+2. 在 Folia 本地音乐区域点“导入文件夹”，选正式曲库，等待扫描结束。
+3. 双击 `playlist.cmd`，搜索、选歌、排序并保存 M3U8。
+4. 在 Folia 点“导入歌单”，选择刚保存的文件，核对歌曲数量后播放。
+
+M3U8 只写路径，例如 `../library/AGA - 孤雏.flac`。Folia 会在**已经导入的曲库**里匹配歌曲，不能只导入歌单就期待它自动扫描磁盘。[Folia 官方说明](https://github.com/chthollyphile/folia-major/blob/main/docs/local-library-management.md#导入与导出-m3u-歌单)
+
+我们曾遇到“81 条路径找不到或有歧义”的提示，后来统一正式目录、更新歌单引用并复核匹配。2026-10-12 检查：曲库 174 首，Axlt 歌单 110 条路径全部存在；按已安装 Folia 的匹配逻辑检查，110 匹配、0 缺失、0 歧义。这是文件和匹配检查的结果，不等于此次重新逐首播放。
+
+**想直接试一遍？** [完整 Folia 实例](docs/folia-example.md)包含一个可运行的小演示：生成两段原创测试音 → 用正式入口导入 → 生成两项 M3U8 → 在 Folia 先导入文件夹、再导入歌单。仓库不附带真实歌曲。
+
 ## 目录
 
 ```text
@@ -105,7 +163,8 @@ src/                  扫描导入、NCM 处理、曲库维护、歌单编辑器
 tests/                自动生成音频的回归测试
 config.example.json   可分享的示例配置
 config.qq.example.json  带 QQ 辅助工具字段的示例，默认关闭
-docs/                 环境安装与 QQ／Frida 路线说明
+docs/                 环境、解码原理、QQ／Frida 与 Folia 实例
+examples/             可自行生成的 Folia 测试音演示
 config.json           自己的配置，不上传 Git
 downloads/            原下载文件，不上传 Git
 library/              处理后的曲库，不上传 Git
@@ -122,7 +181,7 @@ playlists/            自己的歌单，不上传 Git
 
 ```bash
 git status
-git add src tests docs README.md config.example.json config.qq.example.json
+git add src tests docs examples README.md config.example.json config.qq.example.json
 git commit -m "Update music tools"
 git push
 ```
