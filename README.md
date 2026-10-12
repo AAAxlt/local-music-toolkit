@@ -1,5 +1,7 @@
 # Local Music Toolkit · 本地音乐工具
 
+**作者：AAAxlt、Codex（OpenAI）、DeepSeek。** 项目账号与维护者：AAAxlt。
+
 扫描自己的音乐下载目录，将可处理的文件加入一个本地曲库；点击选歌并生成 M3U8 歌单。歌单只记录歌曲位置，**不会复制音频**。
 
 这是脚本项目，当前提供 Windows 双击入口。Python/Node 核心脚本包含跨平台回归测试；QQ 客户端辅助流程仅适用于 Windows。
