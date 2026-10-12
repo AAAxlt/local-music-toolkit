@@ -134,6 +134,41 @@ class Tests(unittest.TestCase):
     def _png(self):
         img=lib.Image.new('RGB',(120,120),'red');b=lib.io.BytesIO();img.save(b,'PNG');return b.getvalue()
 
+    def test_canonical_cover_is_not_reencoded(self):
+        cover = lib.image_jpeg(self._png())
+        self.assertEqual(lib.image_jpeg(cover), cover)
+
+    def test_managed_refresh_reuses_tagged_audio_but_applies_new_lyrics(self):
+        with tempfile.TemporaryDirectory(dir=str(SRC.parent / '.work/test-fixtures')) as td:
+            root = Path(td); out = root/'library'; out.mkdir()
+            audio = out/'Singer - Song.flac'
+            subprocess.run([FF,'-v','error','-f','lavfi','-i','sine=frequency=440:duration=1',
+                            '-c:a','flac','-metadata','title=Song','-metadata','artist=Singer',str(audio)],check=True)
+            audio.with_suffix('.png').write_bytes(self._png())
+            lyrics = audio.with_suffix('.lrc')
+            lyrics.write_text('[00:00.00]original sample','utf-8')
+            (out/'.library-manifest.json').write_text(json.dumps({'entries':{}}),'utf-8')
+            cfg = {'libraryDir':str(out),'organizedDir':str(out),'allowManagedInPlace':True,
+                   'ffmpegPath':FF,'reportDir':str(root/'reports'),
+                   'cacheDir':str(root/'cache'),'backupDir':str(root/'backup')}
+            path = root/'cfg.json';path.write_text(json.dumps(cfg),'utf-8')
+            command = [sys.executable,str(SRC/'organize-library.py'),'--config',str(path),'--offline']
+            def refresh():
+                subprocess.run(command,check=True,capture_output=True)
+                return json.loads((root/'reports/latest.json').read_text('utf-8'))['summary']
+            refresh()
+            first = lib.file_hash(audio)
+            self.assertEqual(refresh()['reused'], 1)
+            self.assertEqual(lib.file_hash(audio), first)
+            self.assertEqual(refresh()['reused'], 1)
+            lyrics.write_text('[00:00.00]original sample\n[00:00.50]new longer sample','utf-8')
+            self.assertEqual(refresh()['reused'], 0)
+            self.assertIn('new longer sample', lib.read_track(audio)['lyrics'])
+            updated = lib.file_hash(audio)
+            self.assertNotEqual(updated, first)
+            self.assertEqual(refresh()['reused'], 1)
+            self.assertEqual(lib.file_hash(audio), updated)
+
     def test_lock_recovers_dead_run_but_respects_live_process(self):
         with tempfile.TemporaryDirectory(dir=str(SRC.parent / ".work" / "test-fixtures")) as td:
             p=Path(td)/'lock';p.write_text('2147483000','ascii')

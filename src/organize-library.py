@@ -162,6 +162,16 @@ def choose_candidate(track, candidates, provider):
         return pool[0][0]
     return None
 
+def jpeg_quantization():
+    sample = io.BytesIO()
+    Image.new('RGB', (1, 1)).save(sample, 'JPEG', quality=92)
+    with Image.open(io.BytesIO(sample.getvalue())) as img:
+        return img.quantization
+
+
+CANONICAL_JPEG_QUANTIZATION = jpeg_quantization()
+
+
 def image_jpeg(data):
     if not data or len(data) > 12 * 1024 * 1024:
         return None
@@ -170,6 +180,13 @@ def image_jpeg(data):
             img.load()
             if img.width < 32 or img.height < 32:
                 return None
+            # Re-encoding our own JPEG on every in-place scan changes pixels
+            # and hashes. Preserve an already validated, metadata-free result.
+            if (img.format == 'JPEG' and img.mode == 'RGB'
+                    and max(img.size) <= 1200
+                    and img.quantization == CANONICAL_JPEG_QUANTIZATION
+                    and not img.info.get('exif') and not img.info.get('comment')):
+                return data
             img = img.convert('RGB')
             img.thumbnail((1200, 1200))
             buf = io.BytesIO()
@@ -265,6 +282,9 @@ def local_assets(group, source_map):
     clean = [x for x in (image_jpeg(b) for b in covers) if x]
     cover = max(clean, key=len, default=None)
     lyric = max(lyrics, key=lambda t: (len(STAMP.findall(t)), len(t)), default=None)
+    if lyric:
+        # Match the sidecar bytes we write, so the next scan has the same ID.
+        lyric = lyric.rstrip() + '\n'
     return cover, lyric
 
 def online_assets(net, row, need_cover, need_lyrics):
@@ -609,7 +629,15 @@ def main():
                 target = out / name
                 asset_id = digest((row['sha256'] + digest(cover or b'') + digest((lyrics or '').encode())).encode())
                 prev = old.get('entries', {}).get(name, {})
-                if target.exists() and prev.get('assetId') == asset_id and prev.get('sha256') == file_hash(target):
+                # In-place input is the previous OUTPUT, whose hash can differ
+                # from the original input after tags were embedded. Compare
+                # unchanged assets against the previous input identity too.
+                previous_assets = digest((prev.get('sourceSha256', '') + digest(cover or b'') + digest((lyrics or '').encode())).encode())
+                managed_reuse = (src == out and row['path'].resolve() == target.resolve()
+                                 and row['sha256'] == prev.get('sha256')
+                                 and prev.get('assetId') == previous_assets)
+                if (target.exists() and prev.get('sha256') == file_hash(target)
+                        and (prev.get('assetId') == asset_id or managed_reuse)):
                     report['reused'] += 1
                 else:
                     tmp = out / ('.working-' + str(os.getpid()) + row['path'].suffix.lower())
