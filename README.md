@@ -18,10 +18,44 @@
 
 QQ 的 `.mflac/.mgg` **不承诺全部支持**。仓库不附带 QQ 辅助程序；未配置或未显式启用时报告为等待。现有普通音频与 NCM 不依赖 QQ 客户端。
 
+## 环境要求
+
+| 组件 | 建议与已验证范围 | 用途 |
+| --- | --- | --- |
+| Windows | Windows 11 已验证 | 双击入口与 QQ 客户端辅助流程 |
+| Python | 建议 Python 3.12；本机验证 3.12.8 | 曲库整理、图形选歌、调用导入流程 |
+| Node.js | 建议 22 或 24 LTS；本机验证 24，自动测试使用 22 | 文件扫描、NCM 离线处理、外部 QQ 工具适配 |
+| FFmpeg + ffprobe | 两个程序都需要；本机验证 FFmpeg 9.0.2 | 完整音频解码校验、容器和音频包检查、尾部规范化 |
+| Mutagen + Pillow | 由 `setup.cmd` 按 `requirements.txt` 安装 | 音频标签、内嵌封面和图片处理 |
+| QQ 音乐 PC 客户端 + Frida 路线的辅助工具 | **只在需要处理 QQ 加密文件时使用**，要求匹配客户端和辅助工具版本 | 借助运行中的客户端处理本机已下载的加密文件 |
+
+Node.js 20 不再作为新安装的推荐版本。新用户选官网标为 LTS 的版本即可。
+
+下载、安装、PATH 设置、Python 虚拟环境以及常见报错见 **[环境安装与自检](docs/environment.md)**。
+
+## QQ 音乐解码思路：Frida 客户端辅助
+
+三类文件走不同流程：普通音频直接校验导入；NCM 由仓库内的离线实现处理；QQ 加密文件使用可选的外部客户端辅助工具。
+
+Frida 是动态插桩框架，可以观察运行中程序的函数和数据。QQ 路线的思路是：先让用户自己的 QQ 音乐客户端完成登录并实际播放一首歌，加载播放/解密模块，再由相匹配的 Frida 辅助工具利用客户端运行时所需的信息处理**已经下载到本机的文件**。本仓库负责扫描、暂存副本、调用工具、验证输出和发布到曲库。
+
+```text
+自己的 QQ 下载文件
+  → 已登录且真正播放过歌曲的 QQ PC 客户端
+  → 与该客户端版本匹配的 Frida 辅助工具
+  → 普通 FLAC / OGG 等候选音频
+  → FFmpeg 完整解码校验
+  → 校验通过才加入 library
+```
+
+**Frida 本身不是 QQ 解码器**；安装 `frida-tools` 不会自动补出本仓库缺少的 QQ 辅助程序。当前适配器面向 `qqmusic_des.exe` 的交互协议，其他 Frida 程序需要另写适配器。
+
+详细前提、工具边界、配置示例、启用命令以及失败排查见 **[QQ 音乐／Frida 路线](docs/qq-decoding.md)**。可用配置样例是 [`config.qq.example.json`](config.qq.example.json)，默认仍关闭 QQ 辅助处理。
+
 ## 第一次使用（Windows）
 
 1. 从仓库页面点 **Code → Download ZIP**，解压到自己的目录。
-2. 安装 Python 3.12 或更新版本、Node.js 20 或更新版本，以及 FFmpeg（包含 `ffprobe`）。令 `node` 和 `ffmpeg` 可在终端执行；FFmpeg 也可在配置里填写可执行文件路径。
+2. 按[环境安装与自检](docs/environment.md)安装 Python、Node.js LTS、FFmpeg 与 ffprobe，并检查命令可用。只有需要 QQ 加密处理时才准备 QQ 客户端和相匹配的外部辅助工具。
 3. 双击 `setup.cmd`，Python 依赖安装在项目自己的 `.venv` 目录。成功后生成个人 `config.json`。
 4. 编辑 `config.json` 的 `sourceDirs`，填入自己的下载目录。所有相对路径**以配置文件所在目录为基准**，不会随着启动位置改变。
 5. 双击 `refresh.cmd`。保留的歌曲在 `library`，报告在 `.reports`。初次输出目录应为空。
@@ -39,22 +73,30 @@ QQ 的 `.mflac/.mgg` **不承诺全部支持**。仓库不附带 QQ 辅助程序
 
 ```powershell
 # 查看扫描计划，不解码、不写曲库
-.venv\Scripts\python.exe src\refresh-library.py --preview
+.\.venv\Scripts\python.exe src\refresh-library.py --preview
 
 # 默认离线更新曲库
-.venv\Scripts\python.exe src\refresh-library.py
+.\.venv\Scripts\python.exe src\refresh-library.py
 
 # 列出可选歌曲
-.venv\Scripts\python.exe src\make-playlist.py --list
+.\.venv\Scripts\python.exe src\make-playlist.py --list
 
 # 按歌手或歌名关键词建单
-.venv\Scripts\python.exe src\make-playlist.py --name "精选" --match "歌手名字,歌名"
+.\.venv\Scripts\python.exe src\make-playlist.py --name "精选" --match "歌手名字,歌名"
 
 # 需要绝对歌曲路径时
-.venv\Scripts\python.exe src\make-playlist.py --name "精选" --match "歌名" --absolute
+.\.venv\Scripts\python.exe src\make-playlist.py --name "精选" --match "歌名" --absolute
 ```
 
 封面歌词使用已有本地资料。只有明确传入 `--online` 才进行元数据查询，不上传音频。QQ 辅助处理需要自行配置 `qqd` 并明确传入 `--allow-qqd`；不要把未配置的兼容性当作已经通过。
+
+```powershell
+# 已准备 QQ 辅助工具、登录客户端并实际播放过歌曲后，显式启用
+.\.venv\Scripts\python.exe src\refresh-library.py --config config.json --allow-qqd
+
+# Windows 双击入口也接受同样的开关
+.\refresh.cmd --allow-qqd
+```
 
 ## 目录
 
@@ -62,6 +104,8 @@ QQ 的 `.mflac/.mgg` **不承诺全部支持**。仓库不附带 QQ 辅助程序
 src/                  扫描导入、NCM 处理、曲库维护、歌单编辑器
 tests/                自动生成音频的回归测试
 config.example.json   可分享的示例配置
+config.qq.example.json  带 QQ 辅助工具字段的示例，默认关闭
+docs/                 环境安装与 QQ／Frida 路线说明
 config.json           自己的配置，不上传 Git
 downloads/            原下载文件，不上传 Git
 library/              处理后的曲库，不上传 Git
@@ -78,7 +122,7 @@ playlists/            自己的歌单，不上传 Git
 
 ```bash
 git status
-git add src tests README.md config.example.json
+git add src tests docs README.md config.example.json config.qq.example.json
 git commit -m "Update music tools"
 git push
 ```

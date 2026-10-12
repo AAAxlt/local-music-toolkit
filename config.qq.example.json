@@ -1,0 +1,26 @@
+{
+  "sourceDirs": [
+    "./downloads"
+  ],
+  "outputDir": "./library",
+  "workDir": "./.work/import",
+  "ffmpegPath": "ffmpeg",
+  "ncmDecoder": "./src/ncm-decrypt.mjs",
+  "validateFullDecode": true,
+  "allowQqd": false,
+  "runReportDir": "./.reports/import",
+  "replacedDir": "./.backups/replaced",
+  "libraryDir": "./library",
+  "organizedDir": "./library",
+  "allowManagedInPlace": true,
+  "reportDir": "./.reports/organize",
+  "cacheDir": "./.cache/metadata",
+  "backupDir": "./.backups/library",
+  "additionalPlainDirs": [],
+  "titleAliases": [],
+  "qqd": {
+    "exe": "./external/qqd/qqmusic_des.exe",
+    "workdir": "./external/qqd",
+    "outputDir": "./external/qqd/output"
+  }
+}

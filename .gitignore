@@ -1,4 +1,6 @@
 .venv/
+.venv-frida/
+external/
 __pycache__/
 *.py[cod]
 config.json
