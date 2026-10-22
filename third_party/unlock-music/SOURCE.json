@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "upstream": {
+    "name": "Unlock Music CLI",
+    "repository": "https://git.um-react.app/um/cli",
+    "mirror": "leafxdd/unlock-music",
+    "commit": "aec0d85fd9f258a513ecc930a72eaf85af9e1781",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2020-2021 Unlock Music",
+    "retrieved": "2026-10-22",
+    "role": "Read-only source evidence for bounded Python ports. No Go runtime, binary, or upstream agent workflow is used."
+  },
+  "files": [
+    {
+      "path": "algo/qmc/qmc.go",
+      "sha256": "aba9a0dcff05cf7a80c4fc069a1706456bbf1f97c792e00b9b39b521b4bfd366",
+      "role": "QMC container/footer dispatch and extension registry"
+    },
+    {
+      "path": "algo/qmc/cipher_static.go",
+      "sha256": "d0ca60461c3054772eb70f793d20a5e263c982ea85525744ddd3192e4fe40b2a",
+      "role": "QMC static keystream box"
+    },
+    {
+      "path": "algo/qmc/cipher_map.go",
+      "sha256": "f7b7ad1a38220eb23154a96e5f3f23b80f5b037727cb95f14170dcd29f25263a",
+      "role": "QMC map cipher and non-standard rotate"
+    },
+    {
+      "path": "algo/qmc/cipher_rc4.go",
+      "sha256": "6d8dabd9964026ad4cb3b3d1f3c5760675db93c2bc7c3d04235de7e3ccd397fc",
+      "role": "QMC general RC4, segment skip, zero-byte guard"
+    },
+    {
+      "path": "algo/qmc/key_derive.go",
+      "sha256": "3368a7e87826057f64646ad8d173fa9714191fad39ec70f1032e5400ef7b90ae",
+      "role": "QMC base64/TEA key derivation and EncV2 keys"
+    },
+    {
+      "path": "algo/qmc/qmc_footer_musicex.go",
+      "sha256": "44c2aa473f8fd02f777b3dbda1b457d2b4fa54bdbdfdff437459447f121db316",
+      "role": "Bounded musicex v1 tag parsing"
+    },
+    {
+      "path": "internal/sniff/audio.go",
+      "sha256": "a8d0a26fb43e0668b5542330384f1bfff1ca6a9f3289caf89b86631f62d87d7f",
+      "role": "Audio signature sniffing rules"
+    },
+    {
+      "path": "algo/kwm/kwm.go",
+      "sha256": "c14e96d6e492d55377771706f5a93de43fd9c05203465ee1bb63d985908e6625",
+      "role": "KWM header and bitrate/type parsing"
+    },
+    {
+      "path": "algo/kwm/kwm_cipher.go",
+      "sha256": "db1ad55bd43f29bdc011eee51b3054fd356c5ad1dd470c5e5c156ec91f05dbd9",
+      "role": "KWM mask generation"
+    },
+    {
+      "path": "algo/xiami/xm.go",
+      "sha256": "250a46e3cc2e651cc8079d63d3d37fe3663cbed20b622b142a6e0d9c784b805e",
+      "role": "Xiami XM header/type mapping"
+    },
+    {
+      "path": "algo/xiami/xm_cipher.go",
+      "sha256": "fe35f25938af680ad6d922e9cc364e049df2f950e33892875ad9917cdd5c2d94",
+      "role": "Xiami XM conditional XOR"
+    },
+    {
+      "path": "algo/ximalaya/ximalaya.go",
+      "sha256": "972d12d5b67cd526ada0be31ac0baecade67aaab9805a852a3c1659370c0fc64",
+      "role": "X2M/X3M header dispatch"
+    },
+    {
+      "path": "algo/ximalaya/x2m_crypto.go",
+      "sha256": "59a3cb62312295e7be9d309866d5c51b544d5520868fff606576c6905c604e39",
+      "role": "X2M key and scramble-table use"
+    },
+    {
+      "path": "algo/ximalaya/x3m_crypto.go",
+      "sha256": "83c4eb724798e7995418c079632a03fdf50fc67cbafc5e58b9672039e7f572ad",
+      "role": "X3M key and scramble-table use"
+    },
+    {
+      "path": "algo/ximalaya/x2m_scramble_table.bin",
+      "sha256": "f47bc3ea94f109650f9753329b4faa62b77eab1d37df738413c819b344838605",
+      "role": "X2M 1024-entry little-endian table"
+    },
+    {
+      "path": "algo/ximalaya/x3m_scramble_table.bin",
+      "sha256": "5cd0abe24ad9b04b31262f552605b62c78549f8c4aef3bf54e6c780d7e3de39e",
+      "role": "X3M 1024-entry little-endian table"
+    },
+    {
+      "path": "algo/tm/tm.go",
+      "sha256": "ccbf68a85a34da96552d9fe060e01eb1c6e7ff9a286c76827cdcc2177fdff848",
+      "role": "TM2/TM6 8-byte ftyp restoration"
+    },
+    {
+      "path": "algo/kgm/kgm.go",
+      "sha256": "9e2eae280a9556c0a51485a89afd977bdd7ffcc3684d7356d5b97cd22164824f",
+      "role": "KGM container dispatch and v5 boundary"
+    },
+    {
+      "path": "algo/kgm/kgm_header.go",
+      "sha256": "b3ce1adef73003f76c946e3e4d8c3feac55db9fce7f9a1ecf3c5f47c37349c81",
+      "role": "KGM/VPR header bounds"
+    },
+    {
+      "path": "algo/kgm/kgm_v3.go",
+      "sha256": "1ae10fe142b76e2989d6b1a480a4c2194ffa45badff73cea68caa080c3064771",
+      "role": "KGM v3 slot 1 and MD5 box"
+    },
+    {
+      "path": "algo/kgm/kgm_v5.go",
+      "sha256": "ccc64e1391da34b55bd4e50f2fee892edb66fa11efd7cd9e4c19ca2dd7a63e21",
+      "role": "KGM v5 database route; intentionally unsupported"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "c9028d65d98058e7bb95dff0980e90e1185ded1ae90591032ecf513354ab77b0",
+      "role": "Verbatim MIT license"
+    }
+  ],
+  "bundled": {
+    "license": "third_party/unlock-music/LICENSE",
+    "tables": [
+      "third_party/unlock-music/tables/x2m_scramble_table.bin",
+      "third_party/unlock-music/tables/x3m_scramble_table.bin"
+    ]
+  },
+  "not_bundled": [
+    "upstream/algo/qmc/testdata/* (copyrighted/ambiguous audio fixtures; read in place by tests when present)"
+  ],
+  "modifications": [
+    "Ported Go control flow to Python with explicit size/offset bounds. No upstream Go files are edited."
+  ]
+}

@@ -1,5 +1,7 @@
 # 我们实际怎么解码与整理
 
+当前新增的独立入口为 `decode-music.cmd`：无需 Frida、qqd 或 QQ DLL；musicex 仍需对应文件的本机缓存。自动配置、手动播放准备及格式边界见 [使用说明](agent-decoder.md) 与 [支持表](format-support.md)。下文保留原有导入／客户端辅助流程的说明。
+
 回到 [README](../README.md)。这里解释这套脚本如何从本地下载文件得到可供播放器读取的曲库，以及我们实际验证过什么。环境准备见[环境说明](environment.md)，QQ 外部程序接口见[Frida 路线](qq-decoding.md)。
 
 ## 1. 先区别解密、解码与转码

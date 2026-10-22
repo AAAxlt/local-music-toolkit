@@ -1,0 +1,53 @@
+{
+  "provenance": "Generated for candidate tests by applying the pinned MIT Unlock Music QMC algorithm transliteration to synthetic byte patterns. No copyrighted audio is bundled. Independent cross-checks read upstream/algo/qmc/testdata in place when available.",
+  "format": 1,
+  "vectors": [
+    {
+      "name": "static-0",
+      "offset": 0,
+      "input_hex": "030a11181f262d343b424950575e656c737a81888f969da4abb2b9c0c7ced5dce3eaf1f8ff060d141b222930373e454c535a61686f767d848b9299a0a7aeb5bc",
+      "output_hex": "c040c7d28f41da66e3e32f32c8056c6cb02414ab10858cda7320867c5775a1d220ad85c56fac3245c3d638b4a8e0d051909c68bdf08c1b7d53626e00370f634f"
+    },
+    {
+      "name": "static-32768",
+      "offset": 32768,
+      "input_hex": "858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d343b424950575e",
+      "output_hex": "cf5a590ac65ffd6e1ca2a94d82e9e72dab692095020961febf0b87d2f224599d"
+    },
+    {
+      "name": "map-0",
+      "offset": 0,
+      "input_hex": "030a11181f262d343b424950575e656c737a81888f969da4abb2b9c0c7ced5dce3eaf1f8ff060d141b222930373e454c535a61686f767d848b9299a0a7aeb5bc",
+      "output_hex": "387391a2601eadcf00b9c96828e4e51548030132f0ae1d5f904939f8b87455a5d8937142803e8def20d9a9084884c5356823e1d2104efd7fb0691998d81435c5",
+      "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+    },
+    {
+      "name": "map-32768",
+      "offset": 32768,
+      "input_hex": "858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d343b424950575e",
+      "output_hex": "fc0c29e59928548d4644f3ad63609ed58c7cb9752998e41dd6b4033df3d02e65",
+      "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+    },
+    {
+      "name": "rc4-0",
+      "offset": 0,
+      "input_hex": "030a11181f262d343b424950575e656c737a81888f969da4abb2b9c0c7ced5dce3eaf1f8ff060d141b222930373e454c535a61686f767d848b9299a0a7aeb5bcc3cad1d8dfe6edf4fb020910171e252c333a41484f565d646b727980878e959ca3aab1b8bfc6cdd4dbe2e9f0f7fe050c131a21282f363d444b525960676e757c",
+      "output_hex": "7d47d382b12aeee745858a50f9d8a7350d23430e21965e63d5617acc695417919da73362510acec765e5ea3099b887152d03a3eec176be43f5415aac093477f1bd87134271ea2e2785c5ca10b998e7754d6383cee1569ea315a1ba8c291457d1dde7732211ca0e07a5252af05978c7556d43e3ae8136fe8335819a6cc9f4b731",
+      "key_hex": "05121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b38"
+    },
+    {
+      "name": "rc4-5120",
+      "offset": 5120,
+      "input_hex": "171e252c333a41484f565d646b727980878e959ca3aab1b8bfc6cdd4dbe2e9f0f7fe050c131a21282f363d444b525960676e757c838a91989fa6adb4bbc2c9d0d7dee5ecf3fa01080f161d242b323940474e555c636a71787f868d949ba2a9b0",
+      "output_hex": "6953e7b69d36829b31919e64c5f4bbd9f9d7571a0daa727fc1150ed875782bbd89b3c796bd16e2fb51f1fe44e5d49b391937b7fa2d8a525fe1756eb815580b9da99327765df6c2db71d1de2485b4fb19391797dacd6ab2bf01554e9835386bfd",
+      "key_hex": "05121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b38"
+    },
+    {
+      "name": "rc4-32768",
+      "offset": 32768,
+      "input_hex": "858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d343b424950575e",
+      "output_hex": "c84e0934ad6b7cc87a07cb7c5f22be90ac3e85a411dbd858fef737ecd3921a20",
+      "key_hex": "05121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734414e5b6875828f9ca9b6c3d0ddeaf704111e2b38"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # QQ 音乐解码思路：Frida 客户端辅助路线
 
+当前新增的独立入口为 `decode-music.cmd`：无需 Frida、qqd 或 QQ DLL；musicex 仍需对应文件的本机缓存。自动配置、手动播放准备及格式边界见 [使用说明](agent-decoder.md) 与 [支持表](format-support.md)。下文保留原有导入／客户端辅助流程的说明。
+
 回到 [README](../README.md)。本路线仅处理使用者自己已下载到本机的歌曲文件；不代替客户端的登录、内容购买或下载流程。
 
 我们为何选择这条路线、实际样本和成功／失败范围见[解码与整理全过程](decoding-pipeline.md)；处理后的文件如何使用，见[Folia 实例](folia-example.md)。

@@ -1,0 +1,269 @@
+{
+  "date": "2026-10-22",
+  "baseline": "63f0fc67c9d3a125ffc42ac5388815c640c923b8",
+  "scope": "same Windows x64, current user QQ cache; not a new machine or VM",
+  "route": "No Frida/qqd/QQ DLL/process access; QQ musicex uses per-file persisted cache; embedded/legacy formats use local file materials",
+  "upstream": {
+    "repository": "https://github.com/leafxdd/unlock-music",
+    "commit": "aec0d85fd9f258a513ecc930a72eaf85af9e1781",
+    "license": "MIT",
+    "notice": "THIRD_PARTY_NOTICES.md"
+  },
+  "realAcceptance": {
+    "seconds": 66.594,
+    "counts": {
+      "ok": 13,
+      "unchanged": 0,
+      "failed": 0,
+      "waiting": 0,
+      "skipped": 0
+    },
+    "sourceHashesUnchanged": true,
+    "blockedAttempts": [],
+    "samples": [
+      {
+        "source": "Anson Seabra - Peter Pan Was Right.mgg",
+        "kind": "qmc",
+        "algorithm": "qmc-rc4",
+        "footer": "musicex",
+        "status": "ok",
+        "sourceSHA": "af8332566fd34ea43affefe8c68a9c0ca4de50dc4b2f2df546199f0ad9b2965b",
+        "outputSHA": "a8e3b7528d9e55ac6de45ccc2c33de0e70a10b64e0604d98ad89f9c2d9ee0e1a",
+        "audio": {
+          "codec": "vorbis",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 192.497732,
+          "bits": null
+        }
+      },
+      {
+        "source": "BEYOND - 海阔天空.mgg",
+        "kind": "qmc",
+        "algorithm": "qmc-rc4",
+        "footer": "musicex",
+        "status": "ok",
+        "sourceSHA": "bf6e344d296d7d7bf5e24b125fe0d920aedae99396361c0409c7fecb2127edbb",
+        "outputSHA": "0e68f90dffe39c3f6065aa7a5331ec11e5f0499317aded8a8bf670e05e034d33",
+        "audio": {
+          "codec": "vorbis",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 324.825125,
+          "bits": null
+        }
+      },
+      {
+        "source": "MFLAC-A.mflac",
+        "kind": "mflac",
+        "algorithm": "mflac-musicex-v1-offline-material-512",
+        "status": "ok",
+        "sourceSHA": "ed7a09ae6d04cfb477210524c8b28b9e9fa1b09303f1a24bd8f1ebee5066fab8",
+        "outputSHA": "34c0d871651f1800b07c172600337d4b97e164220d05206b320a15b37a31ad04"
+      },
+      {
+        "source": "MFLAC-L1.mflac",
+        "kind": "mflac",
+        "algorithm": "mflac-musicex-v1-offline-material-512",
+        "status": "ok",
+        "sourceSHA": "94b3de4244c911d6364ab8fd2215b628efdaa870e454c3d0695e9d2de4b89f95",
+        "outputSHA": "ff3464e2f64cbc64705a3e151ee669415beacaf418a89831707f1e384e4b6d3f"
+      },
+      {
+        "source": "bôa - Duvet.mgg",
+        "kind": "qmc",
+        "algorithm": "qmc-rc4",
+        "footer": "musicex",
+        "status": "ok",
+        "sourceSHA": "b5e476685132f6b090368aaf764de779065fa4273f792f92bb1e5761c4499538",
+        "outputSHA": "c76d5b5e2b6abe6a3815022a858ab6aa05d083f2132b54cdb3bf92e81052478d",
+        "audio": {
+          "codec": "vorbis",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 202.226667,
+          "bits": null
+        }
+      },
+      {
+        "source": "ncm1.ncm",
+        "kind": "ncm",
+        "status": "ok",
+        "sourceSHA": "914fb5f30fa7b198c0082744ae9c70585deacd72ed5cd78e34c003b665e5fe07",
+        "outputSHA": "695863418dfa4a240a81748455f58a2868d197957867af3f8a1f7e46ed1da593",
+        "audio": {
+          "codec": "mp3",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 423.533333,
+          "bits": null
+        }
+      },
+      {
+        "source": "ncm2.ncm",
+        "kind": "ncm",
+        "status": "ok",
+        "sourceSHA": "09afcfe6c37a19fda323b78c3b941bcb7ebacdb21b50f2615d2cd19dcf3b677f",
+        "outputSHA": "acb0a7776aa2575661f7b8e0809d50300452261a45b539ea813cf10f186ea0cb",
+        "audio": {
+          "codec": "mp3",
+          "sampleRate": 48000,
+          "channels": 2,
+          "duration": 173.409104,
+          "bits": null
+        }
+      },
+      {
+        "source": "plain.flac",
+        "kind": "plain",
+        "status": "ok",
+        "sourceSHA": "add07d5283c089167b389fe8f202a4decad05fc6025f27ba0a06d9a66371a2ab",
+        "outputSHA": "add07d5283c089167b389fe8f202a4decad05fc6025f27ba0a06d9a66371a2ab",
+        "audio": {
+          "codec": "flac",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 293.331338,
+          "bits": "16"
+        }
+      },
+      {
+        "source": "plain.mp3",
+        "kind": "plain",
+        "status": "ok",
+        "sourceSHA": "eb575769c467cbd30c61ba841ded290a6539017caf1767bdd6b2f13732f11ad7",
+        "outputSHA": "eb575769c467cbd30c61ba841ded290a6539017caf1767bdd6b2f13732f11ad7",
+        "audio": {
+          "codec": "mp3",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 425.533333,
+          "bits": null
+        }
+      },
+      {
+        "source": "plain.ogg",
+        "kind": "plain",
+        "status": "ok",
+        "sourceSHA": "b0f13eae2cdb40b8944318cac40f941c52bdc7a56a0cd0575ed53b04a71c77f2",
+        "outputSHA": "b0f13eae2cdb40b8944318cac40f941c52bdc7a56a0cd0575ed53b04a71c77f2",
+        "audio": {
+          "codec": "vorbis",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 190.081066,
+          "bits": null
+        }
+      },
+      {
+        "source": "爱乐团王超 - 天涯.mgg",
+        "kind": "qmc",
+        "algorithm": "qmc-rc4",
+        "footer": "musicex",
+        "status": "ok",
+        "sourceSHA": "7fbdc749b95568360c698c36e11dc70a4c5b9d26ae44391ccf55ca2e545753cf",
+        "outputSHA": "3424ac372150c80533e045f4c3ff0ac0ba26357e863cdf8e7ed73660495dfce1",
+        "audio": {
+          "codec": "vorbis",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 256.223583,
+          "bits": null
+        }
+      },
+      {
+        "source": "纯音乐 - Flower Dance (花之舞) (钢琴版).mgg",
+        "kind": "qmc",
+        "algorithm": "qmc-rc4",
+        "footer": "musicex",
+        "status": "ok",
+        "sourceSHA": "c2eb268d13db5b7316018f016d8a913ca4eb738fbb789bf7a7b3cf742efc6785",
+        "outputSHA": "2221d3e3c3ce83302504b63026afad346613c95369ebc7192b351999d946d49f",
+        "audio": {
+          "codec": "vorbis",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 275.063583,
+          "bits": null
+        }
+      },
+      {
+        "source": "纯音乐 - River Flows In You (你的心河) (钢琴版).mgg",
+        "kind": "qmc",
+        "algorithm": "qmc-rc4",
+        "footer": "musicex",
+        "status": "ok",
+        "sourceSHA": "7cffb85ec5b64ea14754a56e30b62eb7b44b4070fdc00f722a238baba342d2ea",
+        "outputSHA": "058e6482f62c7faeb8fb98588cafdc38dfd437122a5c007c820775bc63109a30",
+        "audio": {
+          "codec": "vorbis",
+          "sampleRate": 44100,
+          "channels": 2,
+          "duration": 185.728005,
+          "bits": null
+        }
+      }
+    ]
+  },
+  "syntheticAcceptance": {
+    "count": 10,
+    "exactDecodedBytes": true,
+    "families": [
+      "QMC static/map/QTag",
+      "KWM",
+      "KGM/VPR v3 slot1",
+      "Xiami XM",
+      "X2M/X3M",
+      "TM2"
+    ],
+    "realPlatformFilesValidated": false
+  },
+  "negativeChecks": {
+    "bad-crc.ogg": true,
+    "missing.mgg": true,
+    "stag.mgg2": true,
+    "truncated.ogg": true,
+    "v5.kgg": true,
+    "existingDifferentOutputRetained": true
+  },
+  "tests": {
+    "exitCode": 0,
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 51 tests in 0.938s",
+      "",
+      "OK"
+    ]
+  },
+  "preservation": {
+    "userUIAndDesignUnchanged": true,
+    "downloadsMetadataUnchanged": 255,
+    "sourceHashesUnchanged": true
+  },
+  "bridge": {
+    "version": "1.0.2",
+    "dsh": "0.2.1-rc.2",
+    "configuredProvider": "commandcode-goat",
+    "configuredModel": "deepseek/deepseek-v4.1-flash",
+    "upstream1017RevisionVerified": false,
+    "firstStage": "timed_out; not accepted",
+    "correctionTask": "dsh-20261022062545-9f4my4"
+  },
+  "limitations": [
+    "KGM/KGG v5 database route not implemented",
+    "QMC STag has no supported key source",
+    "QQ musicex still requires each file own local material; only current Windows profile tested",
+    "Other platforms have synthetic and algorithm-vector coverage, no real platform-download samples"
+  ],
+  "codeSHA256": {
+    "src/audio_validation.py": "61953a4de26f61e95f9c1d3329a15b23887be76b4cad5ef064b11c1a41f778b8",
+    "src/legacy_decoders.py": "c13e1f4431d4b6831b92daea9814afd18ab2217ab422bcc7652c881c1efb9419",
+    "src/music-decode.py": "94118422ce949489e21f933fcf085b065f07fea0980bfa8b053383efd9e6cbec",
+    "src/music_decoder.py": "fcf5dc7e4a385f945172acfb213a0220e7310155e53b5155d3af788cb3c20ea1",
+    "src/qq_ekey.py": "5dce6e5edb91e13249887aee8472b727c5c39dc9d12b1d0569b3e1ae9bdbce39",
+    "src/qq_local_cache.py": "5297388027a0dbc95367c1592ffc09d29b8038efdd70e599b122457ef78f7144",
+    "src/qq_mflac.py": "cb32a7dbc203c649ddc0116aec95e99cfb692c7acad50b268c5d52b610b66938",
+    "src/qq_mflac_crypto.py": "1ceabe506b12f2542cdeaa25017aa1f7dc676bdf60f99b291badc1d601faf3ae",
+    "src/qq_windows_inputs.py": "123a72239ab92b5f6f230684c6db22f715263f2922190946d9d5e760afc96a55"
+  }
+}
