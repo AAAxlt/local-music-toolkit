@@ -2,8 +2,13 @@
 
 ## Unlock Music CLI
 
-The Python decoder additions in `src/legacy_decoders.py` are a bounded
-transliteration of algorithms from the Unlock Music CLI project.
+The Python decoder additions in `src/legacy_decoders.py` include bounded
+transliterations of algorithms from the Unlock Music CLI project. This scope
+explicitly includes standard QMC decoding, not only the legacy-format decoders:
+the QMC port is based on the six upstream files listed under `algo/qmc/` in
+[`SOURCE.json`](third_party/unlock-music/SOURCE.json): `qmc.go`,
+`cipher_static.go`, `cipher_map.go`, `cipher_rc4.go`, `key_derive.go`, and
+`qmc_footer_musicex.go`.
 
 - Original project: Unlock Music
 - Pinned source (mirror): <https://github.com/leafxdd/unlock-music/tree/aec0d85fd9f258a513ecc930a72eaf85af9e1781>
@@ -20,12 +25,16 @@ upstream paths are recorded in
 
 ### What was adapted
 
-The Go control flow for QMC static/map/RC4 ciphers and QMC footers, KWM, Xiami
-XM, Ximalaya X2M/X3M header descrambling, QQ iOS TM2/TM6 header restoration, and
-Kugou KGM/VPR crypto v3 slot 1 was rewritten as bounded Python with explicit
-size/offset checks. KGM/KGG crypto v5 is intentionally not implemented and is
-reported as a waiting/unsupported case. **No Go runtime or upstream executable
-is required to run this candidate.** No upstream Go files were edited.
+The QMC port covers container/footer dispatch, static/map/RC4 ciphers, key
+derivation, and bounded musicex v1 tag parsing. The six source files and their
+per-file SHA-256 pins are recorded in `SOURCE.json`.
+
+Other adapted formats include KWM, Xiami XM, Ximalaya X2M/X3M header
+descrambling, QQ iOS TM2/TM6 header restoration, and Kugou KGM/VPR crypto v3
+slot 1. These were rewritten as bounded Python with explicit size/offset checks.
+KGM/KGG crypto v5 is intentionally not implemented and is reported as a
+waiting/unsupported case. **No Go runtime or upstream executable is required
+to run this candidate.** No upstream Go files were edited.
 
 ### Bundled data
 
