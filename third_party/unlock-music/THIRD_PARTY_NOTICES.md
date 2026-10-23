@@ -4,8 +4,11 @@
 
 This directory contains a verbatim copy of the MIT license and two binary
 scramble tables from the Unlock Music CLI project. The Python implementations
-in `src/legacy_decoders.py` are bounded transliterations of the same project's
-Go algorithms.
+in `src/legacy_decoders.py` are bounded transliterations of the project's Go
+algorithms for both legacy formats and standard QMC decoding. The QMC port
+specifically covers the six upstream files under `algo/qmc/` listed in
+`SOURCE.json`: `qmc.go`, `cipher_static.go`, `cipher_map.go`, `cipher_rc4.go`,
+`key_derive.go`, and `qmc_footer_musicex.go`.
 
 - Original project: Unlock Music
 - Pinned source: <https://github.com/leafxdd/unlock-music/tree/aec0d85fd9f258a513ecc930a72eaf85af9e1781>
